@@ -1,107 +1,125 @@
 <template>
-    <main class="main">
-      <!-- SEARCHBAR -->
-      <div class="col-2 search">
+  <main class="main">
+    <!-- SEARCHBAR -->
+    <div class="col-2 search">
+      <div v-if="!isInputOpen">
+        <button @click="toggleInput" class="text-danger bg-dark"><i class="fa-solid fa-magnifying-glass"></i> Cerca film e serie</button>
+      </div>
+      <div v-else>
         <form @submit.prevent="searchMedia">
-          <input type="text" v-model="searchTerm" placeholder="Cerca un film o una serie tv" />
-          <button type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
+          <input type="text" v-model="searchTerm" placeholder="Cerca un film o una serie tv" class="text-danger"/>
         </form>
       </div>
-      <h2 class="text-light">Risultati della tua ricerca:</h2>
-  <div v-if="mediaResults.length" class="text-light d-flex m-5">
-    <div v-for="media in mediaResults" :key="media.id" class="mx-3">
-      <h2>{{ media.title || media.name }}</h2>
-      <p>{{ media.original_title || media.original_name }}</p>
-      <p v-if="media.original_language">
-        <i v-if="getFlag(media.original_language)" :class="getFlag(media.original_language)"></i>
-        {{ media.original_language }}
-      </p>
-      <p>{{ media.vote_average }}</p>
     </div>
-  </div>
-    </main>
-  </template>
-  <script>
-  import axios from "axios";
-  
-  export default {
-    data() {
-      return {
-        searchTerm: "",
-        mediaResults: [],
-      };
+    <h2 class="text-light">Risultati della tua ricerca:</h2>
+    <div v-if="mediaResults.length" class="row p-3 px-5 mx-5 text-light">
+      <div v-for="(media, index) in mediaResults" :key="media.id" class="col-2 border border-danger mb-4 mx-5 px-5">
+        <h2>{{ media.title || media.name }}</h2>
+        <p>{{ media.original_title || media.original_name }}</p>
+        <p v-if="media.original_language">
+          <i v-if="getFlag(media.original_language)" :class="getFlag(media.original_language)"></i>
+          {{ media.original_language }}
+        </p>
+        <p>{{ media.vote_average }}</p>
+      </div>
+      <div v-if="(index + 1) % 4 === 0" class="w-100"></div>
+    </div>
+  </main>
+</template>
+
+<script>
+import axios from "axios";
+
+export default {
+  data() {
+    return {
+      searchTerm: "",
+      mediaResults: [],
+      isInputOpen: false,
+    };
+  },
+
+  methods: {
+    toggleInput() {
+      this.isInputOpen = !this.isInputOpen;
     },
-  
-    methods: {
-      searchMedia() {
-        axios
-          .all([
-            axios.get("https://api.themoviedb.org/3/search/movie", {
-              params: {
-                api_key: "c706f94ce5d14347af05f5cc11f3de87",
-                query: this.searchTerm,
-                language: "it-IT",
-              },
-            }),
-            axios.get("https://api.themoviedb.org/3/search/tv", {
-              params: {
-                api_key: "c706f94ce5d14347af05f5cc11f3de87",
-                query: this.searchTerm,
-                language: "it-IT",
-              },
-            }),
-          ])
-          .then(
-            axios.spread((moviesRes, tvShowsRes) => {
-              const movies = moviesRes.data.results.map((movie) => ({
-                ...movie,
-                media_type: "movie",
-              }));
-              const tvShows = tvShowsRes.data.results.map((tvShow) => ({
-                ...tvShow,
-                media_type: "tv",
-              }));
-              this.mediaResults = [...movies, ...tvShows];
-            })
-          )
-          .catch((error) => {
-            console.log(error);
-          });
-      },
-  
-      getFlag(language) {
-        switch (language) {
-          case "it":
-            return "flag-icon flag-icon-it";
-          case "en":
-            return "flag-icon flag-icon-gb";
-          case "fr":
-            return "flag-icon flag-icon-fr";
-          
-          default:
-            return "";
-        }
-      },
+
+    searchMedia() {
+      axios
+        .all([
+          axios.get("https://api.themoviedb.org/3/search/movie", {
+            params: {
+              api_key: "c706f94ce5d14347af05f5cc11f3de87",
+              query: this.searchTerm,
+              language: "it-IT",
+            },
+          }),
+          axios.get("https://api.themoviedb.org/3/search/tv", {
+            params: {
+              api_key: "c706f94ce5d14347af05f5cc11f3de87",
+              query: this.searchTerm,
+              language: "it-IT",
+            },
+          }),
+        ])
+        .then(
+          axios.spread((moviesRes, tvShowsRes) => {
+            const movies = moviesRes.data.results.map((movie) => ({
+              ...movie,
+              media_type: "movie",
+              poster_path: "https://image.tmdb.org/t/p/w342" + movie.poster_path,
+            }));
+            const tvShows = tvShowsRes.data.results.map((tvShow) => ({
+              ...tvShow,
+              media_type: "tv",
+              poster_path: "https://image.tmdb.org/t/p/w342" + tvShow.poster_path,
+            }));
+            this.mediaResults = [...movies, ...tvShows];
+          })
+        )
+        .catch((error) => {
+          console.log(error);
+        });
     },
-  };
-  </script>
+
+    getFlag(language) {
+      switch (language) {
+        case "it":
+          return "flag-icon flag-icon-it";
+        case "en":
+          return "flag-icon flag-icon-gb";
+        case "fr":
+          return "flag-icon flag-icon-fr";
+
+        default:
+          return "";
+      }
+    },
+  },
+};
+</script>
   
   <style lang="scss" scoped>
   .main {
-    padding: 50px 0;
-    background-color: rgb(15, 11, 11);
+    padding: 10px 10px;
+    background-color: black;
   }
   .container-main{
     width: 1200px;
     margin-left: 350px;
+    padding: 10px;
   }
 
   .search {
     position: relative;
    
     left: 1600px;
-    bottom: 100px;
+    bottom: 55px;
+    
+   
     
   }
+
+  
   
   </style>

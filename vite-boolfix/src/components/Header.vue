@@ -7,8 +7,8 @@
             
      
          <!-- NAVBAR -->
-          <nav class="navbar navbar-expand-lg navbar-light bg-light mx-5">
-            <a class="navbar-brand text-danger" href="#">BOOLFLIX</a>
+          <nav class="navbar navbar-expand-lg navbar-light bg-dark mx-2">
+            <a class="navbar-brand text-danger mx-3" href="#">BOOLFLIX</a>
               <button
                   class="navbar-toggler"
                   type="button"
@@ -22,7 +22,7 @@
             </button>
   
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
-              <ul class="navbar-nav mr-auto">
+              <ul class="navbar-nav mr-auto menu">
                 <li class="nav-item active">
                   <a class="nav-link" href="#">Home</a>
                 </li>
@@ -59,16 +59,24 @@
   @use '../style/partials/variables' as *;
   .main-header {
     text-align: left;
-    background-color: white;
     padding: 5px;
     font-size: 15px;
-    color: black;
-    width: 1920px;
+   
+    width: 1900px;
+    color: white;
     
   }
   .logo {
     width: 100px;
     padding-right: 10px;
+  }
+
+  .menu a {
+    color: white;
+  }
+
+  .menu a:hover{
+    color: rgba(255, 0, 0, 0.799);
   }
 
 
