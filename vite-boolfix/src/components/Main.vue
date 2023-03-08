@@ -67,6 +67,7 @@ export default {
             const movies = moviesRes.data.results.map((movie) => ({
               ...movie,
               media_type: "movie",
+             //MILSTONE 3
               poster_path: "https://image.tmdb.org/t/p/w342" + movie.poster_path,
             }));
             const tvShows = tvShowsRes.data.results.map((tvShow) => ({
