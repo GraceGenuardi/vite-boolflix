@@ -14,10 +14,10 @@
     <h2 class="text-light">Risultati della tua ricerca:</h2>
     <div v-if="mediaResults.length" class="row p-3 px-5 mx-5 text-light">
       <div v-for="(media, index) in mediaResults" :key="media.id" class="col-2 border border-danger mb-4 mx-5 px-5">
-        <h2>{{ media.title || media.name }}</h2>
-        <img :src="media.poster_path" alt="Poster" />
-        <p>{{ media.original_title || media.original_name }}</p>
-        <p v-if="media.original_language">
+        <h3 class="fs-5 m-3">{{ media.title || media.name }}</h3>
+        <img :src="media.poster_path" alt="Poster" class="p-3"/>
+        <p class=" pb-3 text-center">{{ media.original_title || media.original_name }}</p>
+        <p v-if="media.original_language" class=" pb-3 text-center position-static">
           <i v-if="getFlag(media.original_language)" :class="getFlag(media.original_language)"></i>
           {{ media.original_language }}
         </p>
