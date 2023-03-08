@@ -15,12 +15,17 @@
     <div v-if="mediaResults.length" class="row p-3 px-5 mx-5 text-light">
       <div v-for="(media, index) in mediaResults" :key="media.id" class="col-2 border border-danger mb-4 mx-5 px-5">
         <h2>{{ media.title || media.name }}</h2>
+        <img :src="media.poster_path" alt="Poster" />
         <p>{{ media.original_title || media.original_name }}</p>
         <p v-if="media.original_language">
           <i v-if="getFlag(media.original_language)" :class="getFlag(media.original_language)"></i>
           {{ media.original_language }}
         </p>
-        <p>{{ media.vote_average }}</p>
+        <div class="stars">
+            <i v-for="n in Math.ceil(media.vote_average / 2)" class="fa-solid fa-star"></i>
+            <i v-for="n in Math.floor((10 - media.vote_average) / 2)" class="far fa-star"></i>
+        </div>  
+        
       </div>
       <div v-if="(index + 1) % 4 === 0" class="w-100"></div>
     </div>
@@ -113,13 +118,30 @@ export default {
 
   .search {
     position: relative;
-   
     left: 1600px;
     bottom: 55px;
-    
-   
-    
   }
+
+  /**POSTER RULES **/
+  .col-2 {
+  position: relative;
+  
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin: 0 auto;
+}
+
+.stars {
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  color: rgb(255, 208, 0);
+}
 
   
   
