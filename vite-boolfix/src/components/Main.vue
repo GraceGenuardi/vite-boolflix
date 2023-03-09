@@ -15,7 +15,7 @@
     <h2 class="text-light">Risultati della tua ricerca:</h2>
 
     <div v-if="mediaResults.length" class="row p-3 px-5 mx-5 text-light ">
-      <div v-for="(media, index) in mediaResults" :key="media.id" class="col-2 border border-danger mb-4 mx-5 px-5"   @mouseover="currentMedia = media">
+      <div v-for="(media, index) in mediaResults" :key="media.id" class="col-2 border border-danger mb-4 mx-5 px-5"   @mouseover="currentMedia = media"  @mouseout="currentMedia = null">
         <h3 class="fs-5 m-3">{{ media.title || media.name }}</h3>
         <img :src="media.poster_path" alt="Poster"/>
         <p class=" p-3 text-center">{{ media.original_title || media.original_name }}</p>
