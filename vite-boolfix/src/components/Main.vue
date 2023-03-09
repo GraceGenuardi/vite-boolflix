@@ -15,36 +15,41 @@
     <h2 class="text-light">Risultati della tua ricerca:</h2>
 
     <div v-if="mediaResults.length" class="row p-3 px-5 mx-5 text-light ">
-      <div v-for="(media, index) in mediaResults" :key="media.id" class="col-2 border border-danger mb-4 mx-5 px-5"   @mouseover="currentMedia = media" >
-       
-        <img :src="media.poster_path" alt="Poster"/>
-        
-        
+      <div
+  v-for="(media, index) in mediaResults"
+  :key="media.id"
+  class="col-2 border border-danger mb-4 mx-5 px-5"
+  @mouseover="currentMedia = media"
+  @mouseleave="currentMedia = null"
+>
+  <img :src="media.poster_path" alt="Poster" />
 
-       
-        
-        <!-- MILSTONE 4-HOVER CARD -->
-        <div class="card-overlay" v-show="currentMedia === media">
 
-           <h3 class="fs-5 m-3">{{ media.title || media.name }}</h3>
+  <!-- CARD HOVER, MILSTONE 4 -->
 
-           <p class=" p-3 text-center">{{ media.original_title || media.original_name }}</p>
+  <div class="card-overlay" v-if="currentMedia === media">
+    <h3 class="fs-5 m-3">{{ media.title || media.name }}</h3>
 
-           <p v-if="media.original_language" class=" pb-3 text-center position-static">
-             <i v-if="getFlag(media.original_language)" :class="getFlag(media.original_language)"></i>
-             {{ media.original_language }}
-          </p>
-          
-          <div class="stars">
-            <i v-for="n in Math.ceil(media.vote_average / 2)" class="fa-solid fa-star"></i>
-            <i v-for="n in Math.floor((10 - media.vote_average) / 2)" class="far fa-star"></i>
-        </div>
+    <p class=" p-3 text-center">
+      {{ media.original_title || media.original_name }}
+    </p>
 
-          <p>{{ media.overview }}</p>
-          
-        </div>
-        
-      </div>
+    <p
+      v-if="media.original_language"
+      class=" pb-3 text-center position-static"
+    >
+      <i v-if="getFlag(media.original_language)" :class="getFlag(media.original_language)"></i>
+      {{ media.original_language }}
+    </p>
+
+    <div class="stars">
+      <i v-for="n in Math.ceil(media.vote_average / 2)" class="fa-solid fa-star"></i>
+      <i v-for="n in Math.floor((10 - media.vote_average) / 2)" class="far fa-star"></i>
+    </div>
+
+    <p>{{ media.overview }}</p>
+  </div>
+</div>
       <div v-if="(index + 1) % 4 === 0" class="w-100"></div>
     </div>
   </main>
@@ -163,9 +168,25 @@ img {
   color: rgb(255, 208, 0);
 }
 
-.card-overlay{
+.card-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.8);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   text-align: center;
-  padding: 10px;
+  padding: 20px;
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
+}
+
+.card-overlay:hover {
+  opacity: 1;
 }
   
   
