@@ -15,7 +15,7 @@
     <h2 class="text-light">Risultati della tua ricerca:</h2>
 
     <div v-if="mediaResults.length" class="row p-3 px-5 mx-5 text-light ">
-      <div v-for="(media, index) in mediaResults" :key="media.id" class="col-2 border border-danger mb-4 mx-5 px-5">
+      <div v-for="(media, index) in mediaResults" :key="media.id" class="col-2 border border-danger mb-4 mx-5 px-5"   @mouseover="currentMedia = media">
         <h3 class="fs-5 m-3">{{ media.title || media.name }}</h3>
         <img :src="media.poster_path" alt="Poster"/>
         <p class=" p-3 text-center">{{ media.original_title || media.original_name }}</p>
@@ -23,7 +23,7 @@
           <i v-if="getFlag(media.original_language)" :class="getFlag(media.original_language)"></i>
           {{ media.original_language }}
         </p>
-        
+
         <div class="stars">
             <i v-for="n in Math.ceil(media.vote_average / 2)" class="fa-solid fa-star"></i>
             <i v-for="n in Math.floor((10 - media.vote_average) / 2)" class="far fa-star"></i>
