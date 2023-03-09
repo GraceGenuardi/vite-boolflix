@@ -15,19 +15,34 @@
     <h2 class="text-light">Risultati della tua ricerca:</h2>
 
     <div v-if="mediaResults.length" class="row p-3 px-5 mx-5 text-light ">
-      <div v-for="(media, index) in mediaResults" :key="media.id" class="col-2 border border-danger mb-4 mx-5 px-5"   @mouseover="currentMedia = media"  @mouseout="currentMedia = null">
-        <h3 class="fs-5 m-3">{{ media.title || media.name }}</h3>
+      <div v-for="(media, index) in mediaResults" :key="media.id" class="col-2 border border-danger mb-4 mx-5 px-5"   @mouseover="currentMedia = media" >
+       
         <img :src="media.poster_path" alt="Poster"/>
-        <p class=" p-3 text-center">{{ media.original_title || media.original_name }}</p>
-        <p v-if="media.original_language" class=" pb-3 text-center position-static">
-          <i v-if="getFlag(media.original_language)" :class="getFlag(media.original_language)"></i>
-          {{ media.original_language }}
-        </p>
+        
+        
 
-        <div class="stars">
+       
+        
+        <!-- MILSTONE 4-HOVER CARD -->
+        <div class="card-overlay" v-show="currentMedia === media">
+
+           <h3 class="fs-5 m-3">{{ media.title || media.name }}</h3>
+
+           <p class=" p-3 text-center">{{ media.original_title || media.original_name }}</p>
+
+           <p v-if="media.original_language" class=" pb-3 text-center position-static">
+             <i v-if="getFlag(media.original_language)" :class="getFlag(media.original_language)"></i>
+             {{ media.original_language }}
+          </p>
+          
+          <div class="stars">
             <i v-for="n in Math.ceil(media.vote_average / 2)" class="fa-solid fa-star"></i>
             <i v-for="n in Math.floor((10 - media.vote_average) / 2)" class="far fa-star"></i>
-        </div>  
+        </div>
+
+          <p>{{ media.overview }}</p>
+          
+        </div>
         
       </div>
       <div v-if="(index + 1) % 4 === 0" class="w-100"></div>
@@ -148,6 +163,10 @@ img {
   color: rgb(255, 208, 0);
 }
 
+.card-overlay{
+  text-align: center;
+  padding: 10px;
+}
   
   
   </style>
